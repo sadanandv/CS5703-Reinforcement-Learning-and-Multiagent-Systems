@@ -1,0 +1,21 @@
+import numpy as np
+
+n_arms = 5
+wins = np.zeros(n_arms)
+losses = np.zeros(n_arms)
+
+def thompson_sampling(wins, losses):
+    samples = [np.random.beta(wins[i] + 1, losses[i] + 1) for i in range(n_arms)]
+    return np.argmax(samples)
+
+# Simulate pulling an arm
+for _ in range(100):  # Simulate 100 pulls
+    arm = thompson_sampling(wins, losses)
+    # Here you would normally get a reward from the environment and update wins/losses
+    reward = np.random.choice([0, 1])  # Simulated reward
+    if reward:
+        wins[arm] += 1
+    else:
+        losses[arm] += 1
+
+print("Wins per arm:", wins)
